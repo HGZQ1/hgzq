@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短视频灵感创作助手</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="min-h-[1024px] bg-gradient-to-br from-violet-50 to-violet-100">
+  <div id="floating-icons"></div>
+  <div class="max-w-[1440px] mx-auto relative">
+    <!-- 分镜一：欢迎页面 -->
+    <section id="welcome" class="h-screen flex flex-col items-center justify-center relative section-transition">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-6xl font-bold text-primary mb-4">短视频灵感创作</h1>
+        <p class="text-lg md:text-xl text-gray-600">让 AI 为你开启创意之旅</p>
+      </div>
+      <button onclick="showSection('input')" class="bg-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-button text-lg md:text-xl font-semibold hover:bg-violet-700 transition-all duration-300 float-animation">
+        开启创作的头脑风暴吧
+      </button>
+      <div class="fixed bottom-0 left-0 w-full bg-primary/10 overflow-hidden h-12">
+        <p class="text-gray-600 whitespace-nowrap slide-text inline-block">
+          HolleWorld小琴羽开发，本程序接入了 AI 模型协助灵感创作，开启你的灵感创作之旅吧 >.<
+        </p>
+      </div>
+    </section>
+
+    <!-- 分镜二：输入界面 -->
+    <section id="input" class="min-h-screen py-8 md:py-12 px-4 md:px-6 hidden section-transition">
+      <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-6 md:p-8">
+        <h2 class="text-2xl md:text-3xl font-bold text-primary mb-6 md:mb-8 text-center">灵感创作进行中</h2>
+        <div class="border-2 border-secondary rounded-lg p-4 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-3">请输入您的基本信息</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+            <div class="flex flex-col">
+              <label class="mb-2 text-gray-700">性别</label>
+              <select id="gender" class="p-2 border rounded-button bg-white">
+                <option value="">请选择</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+                <option value="其他">其他</option>
+              </select>
+              <div id="gender-error" class="form-error-msg hidden"></div>
+            </div>
+            <div class="flex flex-col">
+              <label class="mb-2 text-gray-700">年龄</label>
+              <input type="number" id="age" class="p-2 border rounded-button" placeholder="请输入年龄">
+              <div id="age-error" class="form-error-msg hidden"></div>
+            </div>
+            <div class="flex flex-col">
+              <label class="mb-2 text-gray-700">地域</label>
+              <input type="text" id="region" class="p-2 border rounded-button" placeholder="请输入地域">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="flex flex-col">
+              <label class="mb-2 text-gray-700">粉丝量</label>
+              <input type="number" id="followers" class="p-2 border rounded-button" placeholder="请输入粉丝数量">
+            </div>
+            <div class="flex flex-col">
+              <label class="mb-2 text-gray-700">创作者类型</label>
+              <select id="creatorType" class="p-2 border rounded-button bg-white">
+                <option value="">请选择</option>
+                <option value="个人创作者">个人创作者</option>
+                <option value="团队创作者">团队创作者</option>
+              </select>
+              <div id="creatorType-error" class="form-error-msg hidden"></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <label class="mb-2 text-gray-700">视频类型</label>
+            <select id="videoType" class="p-2 border rounded-button bg-white">
+              <option value="">请选择内容类型</option>
+              <option value="搞笑幽默类">搞笑幽默类</option>
+              <option value="生活日常类">生活日常类</option>
+              <option value="知识科普类">知识科普类</option>
+              <option value="才艺展示类">才艺展示类</option>
+              <option value="产品评测类">产品评测类</option>
+              <option value="情感共鸣类">情感共鸣类</option>
+              <option value="时尚美妆类">时尚美妆类</option>
+              <option value="游戏电竞类">游戏电竞类</option>
+              <option value="汽车数码类">汽车数码类</option>
+              <option value="母婴育儿类">母婴育儿类</option>
+              <option value="运动健身类">运动健身类</option>
+              <option value="美食探店类">美食探店类</option>
+              <option value="旅行户外类">旅行户外类</option>
+              <option value="宠物萌宠类">宠物萌宠类</option>
+              <option value="剧情演绎类">剧情演绎类</option>
+              <option value="动漫二次元类">动漫二次元类</option>
+              <option value="其他类型">其他类型</option>
+            </select>
+            <div id="videoType-error" class="form-error-msg hidden"></div>
+          </div>
+        </div>
+        <div class="mb-6 md:mb-8">
+          <label class="block text-xl font-semibold text-primary mb-4">灵感内容</label>
+          <textarea id="inspirationContent" class="w-full h-40 md:h-48 p-4 border-2 border-secondary rounded-lg resize-none" placeholder="请输入您的创作灵感，例如：我想做动漫解说视频，万能的AI啊，可以告诉我解说什么动漫吗？请给我一些建议..."></textarea>
+          <div id="inspirationContent-error" class="form-error-msg hidden"></div>
+        </div>
+        <div class="text-center">
+          <button onclick="submitInspiration()" class="bg-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-button text-lg md:text-xl font-semibold hover:bg-violet-700 transition-all duration-300">
+            灵感提交
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 分镜三：Loading页面 -->
+    <section id="loading" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden section-transition">
+      <div class="bg-white rounded-lg p-6 md:p-8 max-w-md w-full mx-4">
+        <div class="text-center mb-6">
+          <img src="https://ai-public.mastergo.com/ai/img_res/03c39f817de101026922d22e4468d192.jpg" class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4">
+          <div class="text-lg font-semibold text-primary loading-text">我们正在头脑风暴中...</div>
+          <div class="loading-dots"></div>
+        </div>
+        <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
+          <div class="loading-progress h-full bg-primary"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 分镜四：结果展示页 -->
+    <section id="result" class="min-h-screen py-8 md:py-12 px-4 md:px-6 hidden overflow-y-auto section-transition">
+      <div class="max-w-4xl mx-auto space-y-6 md:space-y-8">
+        <!-- 灵感分析 -->
+        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4">灵感分析</h3>
+          <div id="inspirationAnalysis" class="text-gray-700 leading-relaxed">
+            <!-- 动态内容 -->
+          </div>
+        </div>
+        <!-- 创意建议 -->
+        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4">创意建议</h3>
+          <div id="creativeSuggestions" class="text-gray-700">
+            <!-- 动态内容 -->
+          </div>
+        </div>
+        <!-- 数据分析 -->
+        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4">数据分析</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div id="playChart" class="h-64"></div>
+            <div id="engagementChart" class="h-64"></div>
+          </div>
+        </div>
+        <!-- 类似视频推荐 -->
+        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4">优秀案例参考</h3>
+          <div id="videoRecommendations" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 动态内容 -->
+          </div>
+        </div>
+        <!-- 灵感总结 -->
+        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4">灵感总结</h3>
+          <div id="inspirationSummary" class="text-gray-700 leading-relaxed">
+            <!-- 动态内容 -->
+          </div>
+        </div>
+        <div class="text-center mt-6 md:mt-8">
+          <button onclick="showSection('input')" class="bg-primary text-white px-6 py-3 rounded-button font-semibold hover:bg-violet-700 transition-all duration-300">
+            重新开始
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 错误提示 -->
+    <section id="error" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden section-transition">
+      <div class="bg-white rounded-lg p-6 md:p-8 max-w-md w-full mx-4">
+        <div class="text-center">
+          <i class="fas fa-exclamation-triangle text-red-500 text-4xl md:text-5xl mb-4"></i>
+          <h3 class="text-xl md:text-2xl font-bold text-red-500 mb-4">请求出错</h3>
+          <p id="errorMessage" class="text-gray-700 mb-6"></p>
+          <button onclick="showSection('input')" class="bg-primary text-white px-6 py-3 rounded-button font-semibold hover:bg-violet-700 transition-all duration-300">
+            返回重新输入
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
